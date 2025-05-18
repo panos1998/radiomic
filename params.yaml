@@ -1,0 +1,21 @@
+imageType:
+  Original: {}
+
+featureClass:
+  glcm:
+    - JointEntropy
+    - Contrast
+    - Correlation
+    - ClusterProminence
+    - ClusterShade
+
+setting:
+  binWidth: 25
+  force2D: false
+  label: 1
+
+voxelSetting:
+  kernelRadius: 2
+  maskedKernel: true
+  initValue: 0
+  voxelBatch: 5000
