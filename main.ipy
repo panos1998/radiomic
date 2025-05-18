@@ -1,5 +1,6 @@
 #%%
 import os
+import re
 import SimpleITK as sitk
 import numpy as np
 from matplotlib import pyplot as plt
@@ -52,12 +53,12 @@ def process_and_save_images(experiment, image, segmentation):
  #%%
 if __name__ == "__main__":
     try:
-       
+        os.makedirs("numpyFmaps", exist_ok=True)
         base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-        input_folder_ct = os.path.join(base_dir,"tciadataset", "TCIA-NIFTY")
-        input_folder_seg = os.path.join(base_dir,"tciadataset", "TCIA-SEGM")
-        output_folder_ct = os.path.join(base_dir, "tciadataset","TCIA-PADDED")
-        output_folder_seg = os.path.join(base_dir,"tciadataset", "TCIA-SEGM-PADDED")
+        input_folder_ct = os.path.join(base_dir,"tciadataset", "TCIA-NIFTY") # Nifty images folder
+        input_folder_seg = os.path.join(base_dir,"tciadataset", "TCIA-SEGM") # Segmentation folder of nifty images
+        output_folder_ct = os.path.join(base_dir, "tciadataset","TCIA-PADDED") #unused if dont save images
+        output_folder_seg = os.path.join(base_dir,"tciadataset", "TCIA-SEGM-PADDED") #unused if dont save images
         experiment = Experiment(input_folder_ct,output_folder_ct, input_folder_seg,output_folder_seg)
         ct_files = sorted([f for f in os.listdir(input_folder_ct) if f.endswith('.nii') or f.endswith('.nii.gz')])
         seg_files = sorted([f for f in os.listdir(input_folder_seg) if f.endswith('.nii') or f.endswith('.nii.gz')])
@@ -72,6 +73,13 @@ if __name__ == "__main__":
             stackedFeatureMapsInsideImage = experiment.insert_maps_into_mask_bbox(stackedFeatureMaps,resampledSegmentation)
             standardizedFeatureMaps = experiment.pad_or_crop_stacked_feature_maps(stackedFeatureMapsInsideImage)
             print("preprocessing is done")
+            # Save the standardized feature maps as .npy files
+            ctCode = re.findall(r'\d+', ct_file)
+            ctCode = ctCode[0] if ctCode else "unknown"
+            experiment.saveNumpyArray(
+                standardizedFeatureMaps,
+                os.path.join("numpyFmaps", "standardized_feature_maps_" + ctCode + ".npy")
+            )
 
          
     except Exception as e:

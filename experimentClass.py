@@ -52,7 +52,7 @@ class Experiment:
         # Load the DICOM series as a 3D volume
         image = reader.Execute()
 
-        
+
     def process_dicom_series(self, input_folder, output_folder):
         """
         Processes all DICOM series in the input folder and converts them to .nii.gz files.
@@ -447,5 +447,12 @@ class Experiment:
             padded_stack[c] = arr_padded
 
         return padded_stack
+    
+    def saveNumpyArray(self, array, filename):
+        """
+        Saves a numpy array to a .npy file.
+        """
+        np.save(filename, array)
+        print(f"Saved numpy array to '{filename}'")
     
    
