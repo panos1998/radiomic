@@ -71,14 +71,14 @@ if __name__ == "__main__":
             radiomicsObj = experiment.extract_radiomics_mask(resampledImage, resampledSegmentation,"params.yaml")
             stackedFeatureMaps = experiment.stackFeatureMaps(radiomicsObj)
             stackedFeatureMapsInsideImage = experiment.insert_maps_into_mask_bbox(stackedFeatureMaps,resampledSegmentation)
-            standardizedFeatureMaps = experiment.pad_or_crop_stacked_feature_maps(stackedFeatureMapsInsideImage)
+            standardizedFeatureMaps = experiment.pad_or_crop_stacked_feature_maps(stackedFeatureMapsInsideImage).astype(np.float32)
             print("preprocessing is done")
             # Save the standardized feature maps as .npy files
             ctCode = re.findall(r'\d+', ct_file)
             ctCode = ctCode[0] if ctCode else "unknown"
             experiment.saveNumpyArray(
                 standardizedFeatureMaps,
-                os.path.join("numpyFmaps", "standardized_feature_maps_" + ctCode + ".npy")
+                os.path.join("numpyFmaps", "standardized_feature_maps_" + ctCode + ".npz")
             )
 
          

@@ -452,7 +452,7 @@ class Experiment:
         """
         Saves a numpy array to a .npy file.
         """
-        np.save(filename, array)
+        np.savez_compressed(filename, array)
         print(f"Saved numpy array to '{filename}'")
     
    
