@@ -14,12 +14,6 @@ import nrrd
 from radiomics import featureextractor
 #TODO: na meleitiso to simpleITK spacing. voxel size,resampling na dw ti paizei
 
-
-
-
-
-
-
 def read_image_files(input_folder):
     """
     Reads all image files in the input folder and returns them as a list.

@@ -1,3 +1,8 @@
+# assets
+
+feature_maps*
+nifti*
+padded_feature_maps*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
